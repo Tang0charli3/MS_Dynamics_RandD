@@ -3,6 +3,8 @@ package testMsd;
 import java.io.File;
 import java.io.IOException;
 import java.time.Duration;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.openqa.selenium.By;
@@ -46,14 +48,74 @@ public static void main(String[] args) throws IOException, InterruptedException 
 	 System.out.println(element.size());
 	Runtime.getRuntime().exec("taskkill /f /im cmd.exe");
 	Runtime.getRuntime().exec("taskkill /F /FI \"WINDOWTITLE eq Terminal\"");
-	driver.findElement(By.xpath("//span[.='Leads']")).click();
+	driver.findElement(By.xpath("//span[text()='Leads']")).click();
 	driver.findElement(By.xpath("//span[text()='Edit columns']")).click();
 	driver.findElement(By.xpath("//span[text()='Add columns']")).click();
 	driver.findElement(By.xpath("//input[@placeholder='Search']")).sendKeys("Lead Source");
+	Thread.sleep(2000);
 	driver.findElement(By.xpath("//label[text()='Lead Source']")).click();
 	driver.findElement(By.xpath("//span[text()='Close']")).click();
 	driver.findElement(By.xpath("//span[text()='Apply']")).click();
-//	"//div[@class='ag-center-cols-container']//div[@aria-label='Press SPACE to select this row.']//div[@aria-colindex='6']"
-	
+	String leadSource = "//div[@class='ag-center-cols-container']//div[@aria-label='Press SPACE to select this row.']//div[@aria-colindex='6']//label";
+	List<WebElement> source=driver.findElements(By.xpath(leadSource));
+	for(WebElement ele : source) {
+		System.out.println(ele.getText());
+	}
+	int Partner=0;
+	int PublicRelations=0;
+	int TradeShow=0;
+	int Other=0;
+	int Seminar=0;
+	int EmployeeReferral=0;
+	int WordofMouth=0;
+	int ExternalReferral=0;
+	for( WebElement ele : source) {
+		String text=ele.getText();
+		if (text.equals("Partner")) {
+			Partner+=1;
+		}
+		else if(text.equals("Public Relations")) {
+			PublicRelations+=1;
+		}
+		else if(text.equals("Trade Show")) {
+			TradeShow+=1;
+		}
+		else if(text.equals("Other")) {
+			Other+=1;
+		}
+		else if(text.equals("Seminar")) {
+			Seminar+=1;
+		}
+		else if(text.equals("Employee Referral")) {
+			EmployeeReferral+=1;
+		}
+		else if(text.equals("Word of Mouth")) {
+			WordofMouth+=1;
+		}
+		else if(text.equals("External Referral")) {
+			ExternalReferral+=1;
+		}
+		
+	}
+//	List<Integer> list = new ArrayList<Integer>();
+//	list.add(Partner);
+//	list.add(PublicRelations);
+//	list.add(TradeShow);
+//	list.add(Other);
+//	list.add(Seminar);
+//	list.add(EmployeeReferral);
+//	list.add(WordofMouth);
+//	list.add(ExternalReferral);
+//	boolean result=list.equals(source);
+//	System.out.println(result);
+	System.out.println(source.size());
+	System.out.println("Partner " + Partner);
+	System.out.println("Public Relations " +PublicRelations);
+	System.out.println("Trade Show "+ TradeShow);
+	System.out.println("Other "+Other);
+	System.out.println("Seminar "+ Seminar);
+	System.out.println("Employee Referral "+ EmployeeReferral);
+	System.out.println("Word of Mouth "+ WordofMouth);
+	System.out.println("External Referral "+ ExternalReferral);
 }
 }
