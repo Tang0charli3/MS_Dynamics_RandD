@@ -1,7 +1,6 @@
 package testMsd;
 
 import java.awt.AWTException;
-import java.io.File;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -16,34 +15,31 @@ import org.openqa.selenium.chrome.ChromeOptions;
 public class PreLoadData {
 
 	public static void main(String[] args) throws AWTException, InterruptedException, IOException {
-//		Launch Chrome using CMD
-//		int max=2000;
-//		int min=9999;
-//		int port = (int)(Math.random()*(max-min+1)+min);
 		String msDURL="https://www.arrow.com/";
-		String dir="C:\\ChromeDataForMSD";
-		String cmdCommand = "chrome.exe -remote-debugging-port=2708 --no-first-run --no-default-browser-check --user-data-dir="+dir;
-		String chromePath = "C:\\Program Files\\Google\\Chrome\\Application";
-		String firstName="Alpha";
-		Runtime.getRuntime().exec("cmd /c start cmd.exe /K " + cmdCommand, null, new File(chromePath));
+//		String dir="C:\\ChromeDataForMSD";
+//		String cmdCommand = "chrome.exe -remote-debugging-port=9292 --no-first-run --no-default-browser-check --user-data-dir=" + dir;
+//		String chromePath = "C:\\Program Files\\Google\\Chrome\\Application";
+//		Runtime.getRuntime().exec("cmd /c start cmd.exe /K " + cmdCommand, null, new File(chromePath));
 		Thread.sleep(500);
 		System.setProperty("webdriver.http.factory", "jdk-http-client");
 		
 //		Connect to launched browser	
 		ChromeOptions opt = new ChromeOptions();
-		opt.setExperimentalOption("debuggerAddress", "localhost:2708");
+		opt.setExperimentalOption("debuggerAddress", "localhost:9292");
 		opt.addArguments("--disable notifications");
 		opt.addArguments("--remote-allow-origins=*");
 //		
 		WebDriver driver = new ChromeDriver(opt);
+		Runtime.getRuntime().exec("taskkill /f /im cmd.exe");
+		Runtime.getRuntime().exec("taskkill /F /FI \"WINDOWTITLE eq Terminal\"");
+	
 		driver.manage().window().maximize();
 		//Time Starts here
 		long start = System.currentTimeMillis();
 //		
 		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
 		driver.get(msDURL);
-		Runtime.getRuntime().exec("taskkill /f /im cmd.exe");
-		Runtime.getRuntime().exec("taskkill /F /FI \"WINDOWTITLE eq Terminal\"");
+		
 		driver.findElement(By.xpath("//span[.='Leads']")).click();
 //		driver.findElement(By.xpath("//span[.='New']")).click();
 //		driver.findElement(By.xpath("//input[@aria-label='Topic']")).sendKeys("Customer Buying 10 laptops");

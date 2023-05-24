@@ -12,7 +12,7 @@ public class GetEmail {
 
     public static void main(String[] args) {
         // OAuth2 access token
-        String accessToken = "ya29.a0AWY7CklvXLh_hXBn5vFhP3XjiLLKL3Fkt9KJrlTpAMArTFlYwUcCkh_ymTlxEDB5deEFpZj0mkO825UOIKfXgA49PNsB-qAWE3VUfRCAKCpwhI5S7LMvhc5-qmwQdzIPa1FEFQs_4DAqfpPdxlY2-kIKil8CaCgYKAUUSARISFQG1tDrpPs-Ivl7S_r5CU9hmD-5yUg0163";
+        String accessToken = "ya29.a0AWY7CkmX2AYFldbCT7JrsXvPkLmCm1AEYr-F4mNJ6n8xFGYh_TE1I4NjUsQ_XjFp7l5YGhdKBCnu59MQ27TBGjLRaWAVzbZ-Kgl0xcy2EByD_FZ4TQrJOGverW4uJSOgvIkkksfDOPvB26zc84WjRrIPZGGq3AaCgYKAZsSARISFQG1tDrpTA2WYAFrKdV_7LRihNdnaA0165";
 
         // API endpoint URL
         String apiUrl = "https://gmail.googleapis.com/gmail/v1/users/tango.charlie.test.mail@gmail.com/messages";
@@ -25,30 +25,59 @@ public class GetEmail {
         JsonObject jsonObject = new Gson().fromJson(jsonString, JsonObject.class);
         
         JsonArray messagesArray = jsonObject.getAsJsonArray("messages");
+        System.out.println(messagesArray.toString());
         System.out.println(response.getStatusCode());
         String text="";
-
-        // Loop through the "messages" array
-        for (JsonElement messageElement : messagesArray) {
-            JsonObject messageObject = messageElement.getAsJsonObject();
-            String id = messageObject.get("id").getAsString();
-//            System.out.println("ID: " + id);
-            String apiUrl2="https://gmail.googleapis.com/gmail/v1/users/tango.charlie.test.mail@gmail.com/messages/"+id;
-            Response response2 = RestAssured.given()
-                    .header("Authorization", "Bearer " + accessToken)
-                    .get(apiUrl2);
-            String responseBody = response2.getBody().asString();
-//            System.out.println(responseBody);
-            JsonObject jsonObject2 = new Gson().fromJson(responseBody, JsonObject.class);
-	        String snippet = jsonObject2.get("snippet").getAsString();
-	        text=snippet;
-//	        System.out.println(snippet);
-	        if(snippet.contains("Microsoft account Security code")) {
-	        System.out.println("It Contains");
-	        break;
-	        }
-      }
+        
+//        Looping Ids
+        for(JsonElement messageElement : messagesArray) {
+//        	System.out.println("Entered Loop");
+        	JsonObject messageObject = messageElement.getAsJsonObject();
+        	String id = messageObject.get("id").getAsString();
+        	String apiUrl2="https://gmail.googleapis.com/gmail/v1/users/tango.charlie.test.mail@gmail.com/messages/"+id;
+//        	System.out.println(apiUrl);
+        	Response response2 = RestAssured.given().header("Authorization", "Bearer " + accessToken).get(apiUrl2);
+        	String responseBody = response2.getBody().asString();
+        	 JsonObject jsonObject2 = new Gson().fromJson(responseBody, JsonObject.class);
+ 	        String snippet = jsonObject2.get("snippet").getAsString();
+// 	        System.out.println(snippet);
+ 	        text=snippet.toUpperCase();
+// 	        System.out.println(text);
+ 	        String subject ="Microsoft account security code";
+ 	        subject = subject.toUpperCase();
+ 	        if(text.contains(subject)) {
+ 	        	System.out.println("It Contains");
+ 	        	break;
+ 	        }
+// 	        if(snippet.contains(subject)) {
+// 	        System.out.println("It Contains");
+//// 	        System.out.println(text);
+// 	        break;
+// 	        }
+        }
         System.out.println(text);
+//        for (JsonElement messageElement : messagesArray) {
+//            JsonObject messageObject = messageElement.getAsJsonObject();
+//            String id = messageObject.get("id").getAsString();
+////            System.out.println("ID: " + id);
+//            String apiUrl2="https://gmail.googleapis.com/gmail/v1/users/tango.charlie.test.mail@gmail.com/messages/"+id;
+//            Response response2 = RestAssured.given()
+//                    .header("Authorization", "Bearer " + accessToken)
+//                   .get(apiUrl2);
+//            String responseBody = response2.getBody().asString();
+////            System.out.println(responseBody);
+//            JsonObject jsonObject2 = new Gson().fromJson(responseBody, JsonObject.class);
+//	        String snippet = jsonObject2.get("snippet").getAsString();
+//	        String text=snippet;
+//	        String subject ="Microsoft account security code";
+////	        System.out.println(snippet);
+//	        if(snippet.contains(subject)) {
+//	        System.out.println("It Contains");
+//	        System.out.println(text);
+//	        break;
+//	        }
+//      }
+//        System.out.println(text);
         }
 
         // Print the response status code
