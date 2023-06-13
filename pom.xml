@@ -4,17 +4,17 @@
   <artifactId>MSD_Testing</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <name>MSD_Testing</name>
-  <dependencies><!-- https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-java -->
-<dependency>
+  <dependencies>
+  <dependency>
     <groupId>org.seleniumhq.selenium</groupId>
     <artifactId>selenium-java</artifactId>
-    <version>4.8.3</version>
+    <version>4.9.1</version>
 </dependency>
 <!-- https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-http-jdk-client -->
 <dependency>
     <groupId>org.seleniumhq.selenium</groupId>
     <artifactId>selenium-http-jdk-client</artifactId>
-    <version>4.9.1</version>
+    <version>4.8.3</version>
 </dependency>
 
 
